@@ -24,17 +24,7 @@ class Manager {
 	public function getPlayer()
 	{
 		if (is_null($this->_player)) {
-			$user = $this->getCurrentUser();
-			$player = Player::where('user_id',$user->id)->first();
-			if (!$player) {
-				$player = new Player;
-				$player->user()->associate($user);
-				$player->username = $user->username;
-				$player->current_points = 0;
-				$player->current_dollars = 0.0;
-				$player->save();
-			}
-			$this->_player = $player;
+			$this->_player = Player::createFromUser($this->getCurrentUser());
 		}
 		return $this->_player;
 	}
