@@ -25,7 +25,7 @@ Cappa
 
 ###Model Schema
 
-Player
+- Player
   - Current Hearts
   - Current Money
   - User Name
@@ -34,44 +34,44 @@ Player
   - Created Date
 
 
-Player Heart Activity
-  * When Hearts are aquired, not spent
+- Player Heart Activity
+  - * When Hearts are aquired, not spent
   - Player ID
   - Hearts Aquired
   - Activity Type (or id of activity; future use when we have mini game activitys)
   - Created Date
 
-Player Pool Activity
-  * Track changes to pool numbers
+- Player Pool Activity
+  - * Track changes to pool numbers
   - Player ID
   - rate number before
   - rate number after
-  ? Pool ID (when there are multiple pools)
+  - ? Pool ID (when there are multiple pools)
   - Created Date
 
 
-Player Transaction
-  * When Hearts are spent on another player
+- Player Transaction
+  - * When Hearts are spent on another player
   - Giving Player ID
   - Receiving Player ID
   - Hearts Spent
   - Dollars Generated (total, before dividend/pool donation)
   - Dollars Received (after pool donation)
-  ? Receiving Player, Hearts Before
-  ? Giving Player, Money Before
+  - ? Receiving Player, Hearts Before
+  - ? Giving Player, Money Before
   - Receiving Player, Pool Rate (at the time of transaction)
   - Giving Player's Total Hearts Resulting
   - Receiving Player's Total Dollars Resulting
   - Money sent to pool 
   - Created Date
 
-Player Transaction Dividend
-  * When a transaction results in money directed to a pool, and players are payed out
+- Player Transaction Dividend
+  - * When a transaction results in money directed to a pool, and players are payed out
   - Transaction ID
   - Receiving Player
   - Money Received
   - Player Rate (Receiving Player's Pool rate at the time of Payout)
   - Dividend Rate (Calculated percentage of pool, dividend to single person represents)
-  ? Pool ID (when there are multiple pools)
+  - ? Pool ID (when there are multiple pools)
   - Created Date
 
