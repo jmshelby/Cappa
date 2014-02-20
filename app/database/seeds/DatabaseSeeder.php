@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder {
 		Moloquent::unguard();
 		//$this->call('UserTableSeeder');
 		$this->call('UserCollectionSeeder');
+		$this->call('PlayerCollectionSeeder');
 	}
 
 }
