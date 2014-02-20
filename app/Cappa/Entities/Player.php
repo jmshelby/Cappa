@@ -1,6 +1,5 @@
 <?php namespace Cappa\Entities;
 
-
 class Player extends \Cappa\GenePool\Models\Mongo\Root {
 
 	protected $table = 'players';
@@ -13,10 +12,33 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
 		'global_dividend_rate',
 	);
 
+	// == Relationships ==========================================================
+
+	// One User
     public function user()
     {
         return $this->belongsTo('User');
     }
+
+	// Many Pool Share Change Actions/Activity
+	public function poolActivity()
+	{
+        return $this->hasMany('Cappa\Entities\Player\PoolActivity');
+	}
+
+	// Many Heart Aquisition Actions/Activity
+	public function heartActivity()
+	{
+        return $this->hasMany('Cappa\Entities\Player\HeartActivity');
+	}
+
+	// Many Heart Transactions (giving hearts to others)
+	public function transactions()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction');
+	}
+
+	// == Factories ==============================================================
 
 	public static function getFromUser($userId)
 	{
