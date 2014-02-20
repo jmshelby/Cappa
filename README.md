@@ -9,7 +9,7 @@ Cappa
   - The amount of Money aquired by the reciever is equal to [X percentage of the giver's amount of Money] + .01 (base factor)
 - Players can opt into a sharing pool, by selecting a percentage of the wealth that they would like to share
   - When a player aquires Money (as a result of someone spending Hearts on them), a percentage of that income is directed to the pool
-  - When Money is directed to the pool, everyone who is opted into the sharing pool (except the donor) receives a dividend based on their sharing percentage
+  - When Money is directed to the pool, everyone who is opted into the sharing pool (including the donor) receives a dividend based on their sharing percentage
     - [Player's Dividend] = ( [Player's Share Percentage] / [Sum of all Players Share Percentage] ) * [Total Pool Donation] 
 - Players have access to several reports, feeds
   - List of all players
