@@ -36,28 +36,28 @@ class Manager {
 		return $players_q->get();
 	}
 
-	public function playerAccumulatesPoint($player,$points = 1)
+	public function playerAccumulatesHeart($player,$hearts = 1)
 	{
-		$player->increment('current_points',$points);
+		$player->increment('current_hearts',$hearts);
 	}
 
-	public function playerGivesPointTo($receivingPlayer)
+	public function playerGivesHeartTo($receivingPlayer)
 	{
 		$player = $this->getPlayer();
 
-		if ($player->current_points < 1)
-			throw new \Exception('No points left to give');
+		if ($player->current_hearts < 1)
+			throw new \Exception('No hearts left to give');
 
 		if (!is_object($receivingPlayer))
 			$receivingPlayer = Player::find($receivingPlayer);
 
-		// - Players can spend Points on another player, which results in the recieving player aquiring Money
+		// - Players can spend Hearts on another player, which results in the recieving player aquiring Money
 			// - The amount of Money aquired by the reciever is equal to [X percentage of the giver's amount of Money] + .01 (base factor)
 
 		$newDollars = $this->_calculateNewDollarsFromGiver($player);
 \Log::info("New dollars calculated: $newDollars");
 
-		$player->decrement('current_points',1);
+		$player->decrement('current_hearts',1);
 		$receivingPlayer->increment('current_dollars', $newDollars);
 	}
 

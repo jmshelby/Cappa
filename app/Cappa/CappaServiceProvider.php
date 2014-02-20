@@ -13,8 +13,8 @@ class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
 
 		Route::controller('cappa','\Cappa\Controllers\IndexController',array(
     		'getIndex' => 'cappa.dashboard',
-    		'getAddPoint' => 'cappa.addPoint',
-    		'getGivePoint' => 'cappa.givePoint',
+    		'getAddHeart' => 'cappa.addHeart',
+    		'getGiveHeart' => 'cappa.giveHeart',
 		));
 
 /*

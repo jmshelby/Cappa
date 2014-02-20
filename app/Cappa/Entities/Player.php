@@ -8,7 +8,7 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
 	protected $hidden = array();
 	protected $fillable = array(
 		'username',
-		'current_points',
+		'current_hearts',
 		'money_current',
 		'global_dividend_rate',
 	);
@@ -32,7 +32,7 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         $player = new static;
         $player->user()->associate($user);
         $player->username = $user->username;
-        $player->current_points = 0;
+        $player->current_hearts = 0;
         $player->current_dollars = 0.0;
         $player->share_factor = 0.0;
         $player->save();

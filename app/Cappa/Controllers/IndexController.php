@@ -33,25 +33,25 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 		));
 	}
 
-	public function getAddPoint()
+	public function getAddHeart()
 	{
 		$player = $this->_getPlayer();
-		CappaMan::playerAccumulatesPoint($player);
+		CappaMan::playerAccumulatesHeart($player);
 		return \Redirect::route('cappa.dashboard')
-			->with('flash_notice', 'You have added a point!');
+			->with('flash_notice', 'You have added a heart!');
 	}
 
-	public function getGivePoint($receivingPlayerId)
+	public function getGiveHeart($receivingPlayerId)
 	{
 		$receivingPlayer = Player::find($receivingPlayerId);
 		try {
-			CappaMan::playerGivesPointTo($receivingPlayerId);
+			CappaMan::playerGivesHeartTo($receivingPlayerId);
 		} catch (\Exception $e) {
 			return \Redirect::route('cappa.dashboard')
 				->with('flash_notice', $e->getMessage());
 		}
 		return \Redirect::route('cappa.dashboard')
-			->with('flash_notice', 'You have given a point to '.$receivingPlayer->username);
+			->with('flash_notice', 'You have given a heart to '.$receivingPlayer->username);
 	}
 
 }

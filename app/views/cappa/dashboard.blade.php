@@ -7,14 +7,14 @@
 <br/>
 
 
-<p>Current Points: {{ $player->current_points}}</p>
+<p>Current Hearts: {{ $player->current_hearts}}</p>
 <p>Current Dollars: {{ $player->current_dollars}}</p>
 
 
 <br/>
 <br/>
 
-{{ HTML::linkRoute('cappa.addPoint', 'Add Point') }}
+{{ HTML::linkRoute('cappa.addHeart', 'Add Heart') }}
 
 <br/>
 <br/>
@@ -24,7 +24,7 @@
 	<table border=1>
 		<tr>
 			<th>Username</th>
-			<th>Points</th>
+			<th>Hearts</th>
 			<th>Dollars</th>
 			<th>Share %</th>
 			<th>Action</th>
@@ -32,10 +32,10 @@
 			@foreach($otherPlayers as $otherPlayer)
 				<tr>
 					<td>{{{ $otherPlayer->username }}}</td>
-					<td>{{{ $otherPlayer->current_points }}}</td>
+					<td>{{{ $otherPlayer->current_hearts }}}</td>
 					<td>{{{ $otherPlayer->current_dollars }}}</td>
 					<td>{{{ $otherPlayer->share_percentage }}}</td>
-					<td>{{ HTML::linkRoute('cappa.givePoint', 'Give Point', array('player'=>$otherPlayer->id) ) }}</td>
+					<td>{{ HTML::linkRoute('cappa.giveHeart', 'Give Heart', array('player'=>$otherPlayer->id) ) }}</td>
 				</tr>
 			@endforeach
 	</table>
