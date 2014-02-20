@@ -12,6 +12,7 @@
                 <li>{{ HTML::linkRoute('home', 'Home') }}</li>
                 @if(Auth::check())
                     <li>{{ HTML::linkRoute('user.profile', 'Profile' ) }}</li>
+                    <li>{{ HTML::linkRoute('cappa.dashboard', 'Cappa' ) }}</li>
                     <li>{{ HTML::linkRoute('user.logout', 'Logout ('.Auth::user()->username.')') }}</li>
                 @else
                     <li>{{ HTML::linkRoute('user.login', 'Login') }}</li>

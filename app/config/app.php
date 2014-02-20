@@ -108,6 +108,9 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 		// Custom
+		'Cappa\CappaServiceProvider',
+
+		// Packages
 		'Jenssegers\Mongodb\MongodbServiceProvider',
 
 	),
