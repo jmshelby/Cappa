@@ -1,7 +1,7 @@
 Cappa
 =====
 
-Capitalism Simulator - built from laravel
+###Capitalism Simulator - built from laravel
 
 - Players perform an action which results in them aquiring Hearts
     - The action can be as simple as clicking a button, or as complicated as playing a mini game
@@ -25,7 +25,7 @@ Capitalism Simulator - built from laravel
     - List of all transactions, maybe feed of them happening
         - When a heart is spent, who received money, how much went to the pool, who received money from the pool and how much
 
-Model Schema
+###Model Schema
 
 Player
     - Current Hearts
