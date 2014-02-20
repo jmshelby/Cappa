@@ -14,8 +14,34 @@
 <br/>
 <br/>
 
+{{ HTML::linkRoute('cappa.addPoint', 'Add Point') }}
 
+<br/>
+<br/>
 
+@if(count($otherPlayers))
+	<h3>Other Players In the world</h3>
+	<table border=1>
+		<tr>
+			<th>Username</th>
+			<th>Points</th>
+			<th>Dollars</th>
+			<th>Share %</th>
+			<th>Action</th>
+		</tr>
+			@foreach($otherPlayers as $otherPlayer)
+				<tr>
+					<td>{{{ $otherPlayer->username }}}</td>
+					<td>{{{ $otherPlayer->current_points }}}</td>
+					<td>{{{ $otherPlayer->current_dollars }}}</td>
+					<td>{{{ $otherPlayer->share_percentage }}}</td>
+					<td>{{ HTML::linkRoute('cappa.givePoint', 'Give Point', array('player'=>$otherPlayer->id) ) }}</td>
+				</tr>
+			@endforeach
+	</table>
+@else
+	<h3>There are no other players in the world, this is sad</h3>
+@endif
 
 
 

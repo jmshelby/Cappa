@@ -25,9 +25,12 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 
 	public function getIndex()
 	{
-		return \View::make('cappa.dashboard',
-			array('player'=>$this->_getPlayer())
-		);
+		$otherPlayers = CappaMan::getAllOtherPlayers();
+
+		return \View::make('cappa.dashboard', array(
+			'player'=>$this->_getPlayer(),
+			'otherPlayers'=>$otherPlayers,
+		));
 	}
 
 	public function getAddPoint()
@@ -38,7 +41,17 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 			->with('flash_notice', 'You have added a point!');
 	}
 
-
-
+	public function getGivePoint($receivingPlayerId)
+	{
+		$receivingPlayer = Player::find($receivingPlayerId);
+		try {
+			CappaMan::playerGivesPointTo($receivingPlayerId);
+		} catch (\Exception $e) {
+			return \Redirect::route('cappa.dashboard')
+				->with('flash_notice', $e->getMessage());
+		}
+		return \Redirect::route('cappa.dashboard')
+			->with('flash_notice', 'You have given a point to '.$receivingPlayer->username);
+	}
 
 }

@@ -1,9 +1,10 @@
 <?php namespace Cappa;
 
-use Illuminate\Support\ServiceProvider;
+use Cappa\Services\Manager;
+
 use Route;
 
-class CappaServiceProvider extends ServiceProvider {
+class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
 
 	public function boot()
 	{
@@ -12,6 +13,8 @@ class CappaServiceProvider extends ServiceProvider {
 
 		Route::controller('cappa','\Cappa\Controllers\IndexController',array(
     		'getIndex' => 'cappa.dashboard',
+    		'getAddPoint' => 'cappa.addPoint',
+    		'getGivePoint' => 'cappa.givePoint',
 		));
 
 /*
@@ -24,23 +27,10 @@ class CappaServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
-/*
-		// The connection factory is used to create the actual connection instances on
-		// the database. We will inject the factory into the manager so that it may
-		// make the connections while they are actually needed and not of before.
-		$this->app->bindShared('db.factory', function($app)
+		$this->app->bindShared('cappa.manager', function($app)
 		{
-			return new ConnectionFactory($app);
+			return new Manager();
 		});
-
-		// The database manager is used to resolve various connections, since multiple
-		// connections might be managed. It also implements the connection resolver
-		// interface which may be used by other components requiring connections.
-		$this->app->bindShared('db', function($app)
-		{
-			return new DatabaseManager($app, $app['db.factory']);
-		});
-*/
 	}
 
 }

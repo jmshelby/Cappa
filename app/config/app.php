@@ -180,6 +180,9 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		// Custom
+		'CappaMan'        => 'Cappa\Facades\Manager',
+
+		// Packages
 		'Moloquent'       => 'Jenssegers\Mongodb\Model',
 
 	),

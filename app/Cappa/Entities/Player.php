@@ -1,7 +1,7 @@
 <?php namespace Cappa\Entities;
 
 
-class Player extends \Moloquent {
+class Player extends \Cappa\GenePool\Models\Mongo\Root {
 
 	protected $table = 'players';
 
