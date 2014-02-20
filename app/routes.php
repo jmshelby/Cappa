@@ -24,9 +24,4 @@ Route::controller('user','UserController',array(
 ));
 
 
-Route::controller('cappa','\Cappa\Controllers\IndexController',array(
-	'getIndex' => 'cappa.dashboard',
-));
-Route::controller('cappa\player','\Cappa\Controllers\PlayerController',array(
-	//'getIndex' => 'user.login',
-));
+

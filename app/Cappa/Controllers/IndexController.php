@@ -1,22 +1,12 @@
 <?php namespace Cappa\Controllers;
 
+use \CappaMan;
 use Cappa\Entities\Player;
-use Cappa\Services\Dispatch;
-use Cappa\Services\Manager;
 
-use Carbon\Carbon;
-use View;
+class IndexController extends \Cappa\GenePool\Controller\Root {
 
-class IndexController extends \BaseController {
-
-	protected $_cappaDispatch;
-	protected $_cappaManager;
-
-	public function __construct(Dispatch $dispatch, Manager $manager)
+	public function __construct()
 	{
-
-		$this->_cappaDispatch = $dispatch;
-		$this->_cappaManager = $manager;
 
 		$this->beforeFilter('auth');
 
@@ -28,21 +18,27 @@ class IndexController extends \BaseController {
 */
 	}
 
-	public function getIndex()
+	protected function _getPlayer()
 	{
-
-		$player = $this->_cappaDispatch->getPlayer();
-
-		return View::make('cappa.dashboard',array('player'=>$player));
+		return CappaMan::getPlayer();
 	}
 
+	public function getIndex()
+	{
+		return \View::make('cappa.dashboard',
+			array('player'=>$this->_getPlayer())
+		);
+	}
 
 	public function getAddPoint()
 	{
-		$player = $this->_cappaDispatch->getPlayer();
-		$this->_cappaManager->playerAccumulatesPoint($player);
+		$player = $this->_getPlayer();
+		CappaMan::playerAccumulatesPoint($player);
 		return \Redirect::route('cappa.dashboard')
 			->with('flash_notice', 'You have added a point!');
 	}
+
+
+
 
 }

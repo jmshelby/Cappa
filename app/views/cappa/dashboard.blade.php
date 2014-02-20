@@ -8,5 +8,15 @@
 
 
 <p>Current Points: {{ $player->current_points}}</p>
+<p>Current Dollars: {{ $player->current_dollars}}</p>
+
+
+<br/>
+<br/>
+
+
+
+
+
 
 @stop
