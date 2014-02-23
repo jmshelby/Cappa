@@ -1,12 +1,16 @@
 <?php namespace Cappa\Controllers;
 
+use \App;
 use \CappaMan;
 use Cappa\Entities\Player;
 
 class IndexController extends \Cappa\GenePool\Controller\Root {
 
+	public $service;
+
 	public function __construct()
 	{
+		$this->service = App::make('cappa.service.frontend');
 
 		$this->beforeFilter('auth');
 
@@ -20,12 +24,12 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 
 	protected function _getPlayer()
 	{
-		return CappaMan::getPlayer();
+		return $this->service->getPlayer();
 	}
 
 	public function getIndex()
 	{
-		$otherPlayers = CappaMan::getAllOtherPlayers();
+		$otherPlayers = $this->service->getAllOtherPlayers();
 
 		return \View::make('cappa.dashboard', array(
 			'player'=>$this->_getPlayer(),
@@ -36,16 +40,15 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 	public function getAddHeart()
 	{
 		$player = $this->_getPlayer();
-		CappaMan::playerAccumulatesHeart($player);
+		$this->service->playerAccumulatesHeart($player);
 		return \Redirect::route('cappa.dashboard')
 			->with('flash_notice', 'You have added a heart!');
 	}
 
 	public function getGiveHeart($receivingPlayerId)
 	{
-		$receivingPlayer = Player::find($receivingPlayerId);
 		try {
-			CappaMan::playerGivesHeartTo($receivingPlayerId);
+			$receivingPlayer = $this->service->playerGivesHeartTo($receivingPlayerId);
 		} catch (\Exception $e) {
 			return \Redirect::route('cappa.dashboard')
 				->with('flash_notice', $e->getMessage());

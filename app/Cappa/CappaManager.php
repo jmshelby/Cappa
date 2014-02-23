@@ -1,8 +1,8 @@
-<?php namespace Cappa\Services;
+<?php namespace Cappa;
 
 use Cappa\Entities\Player;
 
-class Manager {
+class CappaManager {
 
 
 	const AQUIRE_FACTOR_BASE		= 1;
@@ -15,50 +15,31 @@ class Manager {
 	}
 */
 
-	public function getCurrentUser()
+	public function getPlayerById($id)
 	{
-		return \Auth::user();
+		return Player::find($id);
 	}
 
-	protected $_player;
-	public function getPlayer()
-	{
-		if (is_null($this->_player)) {
-			$this->_player = Player::createFromUser($this->getCurrentUser());
-		}
-		return $this->_player;
-	}
-
-	public function getAllOtherPlayers()
-	{
-		$currentPlayer = $this->getPlayer();
-		$players_q = Player::where('_id', '!=', $currentPlayer->id);
-		return $players_q->get();
-	}
-
-	public function playerAccumulatesHeart($player,$hearts = 1)
+	public function playerAccumulatesHeart(Player $player,$hearts = 1)
 	{
 		$player->increment('current_hearts',$hearts);
 	}
 
-	public function playerGivesHeartTo($receivingPlayer)
+	public function playerGivesHeartTo(Player $player, $receivingPlayer)
 	{
-		$player = $this->getPlayer();
-
 		if ($player->current_hearts < 1)
 			throw new \Exception('No hearts left to give');
 
 		if (!is_object($receivingPlayer))
-			$receivingPlayer = Player::find($receivingPlayer);
-
-		// - Players can spend Hearts on another player, which results in the recieving player aquiring Money
-			// - The amount of Money aquired by the reciever is equal to [X percentage of the giver's amount of Money] + .01 (base factor)
+			$receivingPlayer = $this->getPlayerById($receivingPlayer);
 
 		$newDollars = $this->_calculateNewDollarsFromGiver($player);
 \Log::info("New dollars calculated: $newDollars");
 
 		$player->decrement('current_hearts',1);
 		$receivingPlayer->increment('current_dollars', $newDollars);
+
+		return $receivingPlayer;
 	}
 
 	protected function _calculateNewDollarsFromGiver($givingPlayer)

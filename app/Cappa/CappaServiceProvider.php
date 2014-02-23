@@ -1,7 +1,6 @@
 <?php namespace Cappa;
 
-use Cappa\Services\Manager;
-
+use Cappa\Services\Frontend;
 use Route;
 
 class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
@@ -29,7 +28,11 @@ class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
 	{
 		$this->app->bindShared('cappa.manager', function($app)
 		{
-			return new Manager();
+			return new CappaManager();
+		});
+		$this->app->bindShared('cappa.service.frontend', function($app)
+		{
+			return new Frontend($app['cappa.manager'], $app['auth']);
 		});
 	}
 
