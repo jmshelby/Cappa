@@ -44,7 +44,7 @@ class UserController extends BaseController {
             $user->login_events = $login_events;
             $user->save();
 
-            return Redirect::route('home')
+            return Redirect::intended(route('home'))
                 ->with('flash_notice', 'You are successfully logged in.');
         }
         

@@ -15,23 +15,64 @@ class CappaManager {
 	}
 */
 
+	public function player($sourceIdentifier, $graceful=false)
+	{
+		$player = null;
+
+		if ( $sourceIdentifier instanceof Player )
+			return $sourceIdentifier;
+
+		if (!is_object($sourceIdentifier))
+			$player = $this->getPlayerById($sourceIdentifier);
+
+		if (!$player && !$graceful) {
+			// TODO -- Make custom exception for this
+			throw new Exception("Cannot fetch unknown player ( TODO - Make custom exception for this)");
+		}
+
+		return $player;
+	}
+
 	public function getPlayerById($id)
 	{
 		return Player::find($id);
 	}
 
-	public function playerAccumulatesHeart(Player $player,$hearts = 1)
+    public function doesPlayerHaveHearts($player)
+    {
+		$player = $this->player($player);
+        return ($player->current_hearts > 0);
+    }
+
+    public function canPlayerAccumulateHeart($hearts = 1)
+    {
+        // Currently no other reason to deny heart accumlating
+        return true; 
+    }
+
+	public function playerAccumulatesHeart($player, $hearts = 1)
 	{
+		$player = $this->player($player);
 		$player->increment('current_hearts',$hearts);
 	}
 
-	public function playerGivesHeartTo(Player $player, $receivingPlayer)
-	{
-		if ($player->current_hearts < 1)
-			throw new \Exception('No hearts left to give');
+    public function canPlayerGiveHeartTo($player, $receivingPlayer)
+    {
+		$player = $this->player($player);
+		$receivingPlayer = $this->player($receivingPlayer);
+        if (!$this->doesPlayerHaveHearts($player))
+			return false;
+		return true;
+    }
 
-		if (!is_object($receivingPlayer))
-			$receivingPlayer = $this->getPlayerById($receivingPlayer);
+	public function playerGivesHeartTo($player, $receivingPlayer)
+	{
+		$player = $this->player($player);
+		$receivingPlayer = $this->player($receivingPlayer);
+
+		// TODO - add custom exception class for this case
+		if (!$this->doesPlayerHaveHearts($player))
+			throw new \Exception('No hearts left to give');
 
 		$newDollars = $this->_calculateNewDollarsFromGiver($player);
 \Log::info("New dollars calculated: $newDollars");

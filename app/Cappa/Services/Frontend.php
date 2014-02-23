@@ -17,9 +17,14 @@ class Frontend {
 
 	protected function _loggedInOrFail()
 	{
-		if ($this->_auth->check()) return $this;
+		if ($this->loggedInCheck()) return $this;
 		// TODO -- Change this to custom exception
 		throw new Exception("Session must be logged in");
+	}
+
+	public function loggedInCheck()
+	{
+		return $this->_auth->check();
 	}
 
 	public function getUser()
@@ -44,10 +49,30 @@ class Frontend {
 		return $players_q->get();
 	}
 
-	public function playerAccumulatesHeart($player,$hearts = 1)
+	public function doesPlayerHaveHearts()
+	{
+		return $this->_cappaMan->doesPlayerHaveHearts($this->getPlayer());
+	}
+
+	public function canPlayerAccumulateHeart($hearts = 1)
+	{
+		$this->_loggedInOrFail();
+		if (!$this->_cappaMan->canPlayerAccumulateHeart($hearts))
+			return false;
+		// Currently no other reason to deny heart accumlating
+		return true;
+	}
+
+	public function playerAccumulatesHeart($hearts = 1)
 	{
 		$player = $this->getPlayer();
 		return $this->_cappaMan->playerAccumulatesHeart($player,$hearts);
+	}
+
+	public function canPlayerGiveHeartTo($receivingPlayer)
+	{
+		$player = $this->getPlayer();
+		return $this->_cappaMan->canPlayerGiveHeartTo($player, $receivingPlayer);
 	}
 
 	public function playerGivesHeartTo($receivingPlayer)
