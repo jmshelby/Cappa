@@ -30,6 +30,8 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 		return $this->service->getPlayer();
 	}
 
+// == Simple View Actions ========================================
+
 	public function getIndex()
 	{
 		$otherPlayers = $this->service->getAllOtherPlayers();
@@ -39,6 +41,13 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 			'otherPlayers'=>$otherPlayers,
 		));
 	}
+
+	public function getTransactionHistory()
+	{
+	}
+
+
+// == Redirect Actions ========================================
 
 	public function getAddHeart()
 	{
@@ -77,5 +86,6 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 		return \Redirect::route('cappa.dashboard')
 			->with('flash_notice', "You have given a heart to {$receivingPlayer->username}");
 	}
+
 
 }

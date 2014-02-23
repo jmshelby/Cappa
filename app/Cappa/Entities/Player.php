@@ -32,10 +32,16 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         return $this->hasMany('Cappa\Entities\Player\HeartActivity');
 	}
 
-	// Many Heart Transactions (giving hearts to others)
+	// Many Heart Transactions (giving hearts to another player)
 	public function transactions()
 	{
         return $this->hasMany('Cappa\Entities\Player\Transaction');
+	}
+
+	// Many Receiving Heart Transactions (receiving hearts from player)
+	public function receivingTransactions()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction','receiving_player_id');
 	}
 
 	// == Factories ==============================================================
@@ -55,7 +61,7 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         $player->user()->associate($user);
         $player->username = $user->username;
         $player->current_hearts = 0;
-        $player->current_dollars = 0.0;
+        $player->current_money = 0.0;
         $player->share_factor = 0.0;
         $player->save();
         return $player;
