@@ -5,6 +5,7 @@ use \Redirect;
 
 use \CappaMan;
 use Cappa\Entities\Player;
+use Cappa\Entities\Player\Transaction;
 
 class IndexController extends \Cappa\GenePool\Controller\Root {
 
@@ -44,6 +45,13 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 
 	public function getTransactionHistory()
 	{
+		$transactions_q = Transaction::with('player','receivingPlayer')
+			->orderBy('created_at', 'desc')
+		;
+		$transactions = $transactions_q->get();
+		return \View::make('cappa.transactions', array(
+			'transactions'=>$transactions,
+		));
 	}
 
 
