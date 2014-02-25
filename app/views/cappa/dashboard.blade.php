@@ -19,6 +19,15 @@
 <br/>
 <br/>
 
+{{ Form::open(array('route'=>'cappa.changePoolShare', 'method'=>'POST')) }}
+	{{ Form::label('pool_share', 'Pool Share %') }}<br/>
+	{{ Form::text('pool_share', Input::old('pool_share', $player->getPoolShare())) }}
+	{{ Form::submit('Update Pool Share %') }}
+{{ Form::close() }}
+
+<br/>
+<br/>
+
 @if(count($otherPlayers))
 	<h3>Other Players In the world</h3>
 	<table border=1>

@@ -11,9 +11,10 @@ class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
 		// Routes
 
 		Route::controller('cappa','\Cappa\Controllers\IndexController',array(
-    		'getIndex' => 'cappa.dashboard',
-    		'getAddHeart' => 'cappa.addHeart',
-    		'getGiveHeart' => 'cappa.giveHeart',
+    		'getIndex'				=> 'cappa.dashboard',
+    		'getAddHeart'			=> 'cappa.addHeart',
+    		'postChangePoolShare'	=> 'cappa.changePoolShare',
+    		'getGiveHeart'			=> 'cappa.giveHeart',
 		));
 
 /*

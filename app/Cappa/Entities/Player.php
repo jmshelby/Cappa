@@ -9,7 +9,7 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
 		'username',
 		'current_hearts',
 		'money_current',
-		'global_dividend_rate',
+		'share_factor',
 	);
 
 	// == Relationships ==========================================================
@@ -65,6 +65,34 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         $player->share_factor = 0.0;
         $player->save();
         return $player;
+	}
+
+	// == Middlemen Accessors ====================================================
+
+	public function isInPool()
+	{
+		return ( !is_null($this->share_factor) && $this->share_factor > 0 );
+	}
+
+	public function getPoolShare()
+	{
+		if (!$this->isInPool()) return 0.0;
+		return $this->share_factor; 
+	}
+
+	public function isPoolShareValueValid($percentage)
+	{
+		// TODO -- Any other checks??
+		return ($percentage <= 1 && $percentage >= 0);
+	}
+
+	public function setPoolShare($percentage)
+	{
+// TODO -- Replace this exception with a custom one
+		if (!$this->isPoolShareValueValid($percentage))
+			throw new \Exception(__METHOD__.": Can't set pool share to: $percentage, must be a 0-1 decimal");
+		$this->share_factor = $percentage * 1.0;
+		return $this;
 	}
 
 }

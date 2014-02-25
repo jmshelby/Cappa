@@ -49,6 +49,9 @@ class Frontend {
 		return $players_q->get();
 	}
 
+// =================================================================
+// === Heart Activity
+
 	public function doesPlayerHaveHearts()
 	{
 		return $this->_cappaMan->doesPlayerHaveHearts($this->getPlayer());
@@ -68,6 +71,29 @@ class Frontend {
 		$player = $this->getPlayer();
 		return $this->_cappaMan->playerAccumulatesHeart($player,$hearts);
 	}
+
+// =================================================================
+// === Pool Settings Activity
+
+    public function isPlayerInPool()
+    {
+        return $this->_cappaMan->isPlayerInPool($this->getPlayer());
+    }
+
+    public function canPlayerChangePoolShare($sharePercentage)
+    {
+		$player = $this->getPlayer();
+        return $this->_cappaMan->canPlayerChangePoolShare($player, $sharePercentage);
+    }
+
+	public function playerChangesPoolShare($sharePercentage)
+	{
+		$player = $this->getPlayer();
+        return $this->_cappaMan->playerChangesPoolShare($player, $sharePercentage);
+	}
+
+// =================================================================
+// === Transactions
 
 	public function canPlayerGiveHeartTo($receivingPlayer)
 	{

@@ -1,7 +1,10 @@
 <?php namespace Cappa\Controllers;
 
 use \App;
+use \View;
+use \Input;
 use \Redirect;
+use \Exception;
 
 use \CappaMan;
 use Cappa\Entities\Player;
@@ -37,7 +40,7 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 	{
 		$otherPlayers = $this->service->getAllOtherPlayers();
 
-		return \View::make('cappa.dashboard', array(
+		return View::make('cappa.dashboard', array(
 			'player'=>$this->_getPlayer(),
 			'otherPlayers'=>$otherPlayers,
 		));
@@ -49,7 +52,7 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 			->orderBy('created_at', 'desc')
 		;
 		$transactions = $transactions_q->get();
-		return \View::make('cappa.transactions', array(
+		return View::make('cappa.transactions', array(
 			'transactions'=>$transactions,
 		));
 	}
@@ -60,12 +63,26 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 	public function getAddHeart()
 	{
 		if (!$this->service->canPlayerAccumulateHeart()) {
-			return \Redirect::route('cappa.dashboard')
+			return Redirect::route('cappa.dashboard')
 				->with('flash_notice', "You're not allowed to get another heart (for some reason)");
 		}
 		$this->service->playerAccumulatesHeart();
-		return \Redirect::route('cappa.dashboard')
+		return Redirect::route('cappa.dashboard')
 			->with('flash_notice', 'You have added a heart!');
+	}
+
+	public function postChangePoolShare()
+	{
+		$poolShare = Input::get('pool_share');
+		//$this->service->canPlayerChangePoolShare()
+		try {
+			$this->service->playerChangesPoolShare($poolShare);
+		} catch (Exception $e) {
+			return Redirect::route('cappa.dashboard')
+				->with('flash_notice', $e->getMessage());
+		}
+		return Redirect::route('cappa.dashboard')
+			->with('flash_notice', "You have successfully changed your pool rate to {$poolShare}");
 	}
 
 	// TODO -- take out each case check, and replace with exception bubbling
@@ -73,25 +90,25 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 	{
 		// First, check to make sure the user has enough hearts
 		if (!$this->service->doesPlayerHaveHearts()) {
-			return \Redirect::route('cappa.dashboard')
+			return Redirect::route('cappa.dashboard')
 				->with('flash_notice', "You don't have any hearts left to give");
 		}
 
 		// Second, ask if operation is possible in general
 		if (!$this->service->canPlayerGiveHeartTo($receivingPlayerId)) {
 			$receivingPlayer = CappaMan::player($receivingPlayerId);
-			return \Redirect::route('cappa.dashboard')
+			return Redirect::route('cappa.dashboard')
 				->with('flash_notice', "Cannot give hearts to {$receivingPlayer->username}");
 		}
 
 		// Third, add a catch in case there is some new logic we don't know about
 		try {
 			$receivingPlayer = $this->service->playerGivesHeartTo($receivingPlayerId);
-		} catch (\Exception $e) {
-			return \Redirect::route('cappa.dashboard')
+		} catch (Exception $e) {
+			return Redirect::route('cappa.dashboard')
 				->with('flash_notice', $e->getMessage());
 		}
-		return \Redirect::route('cappa.dashboard')
+		return Redirect::route('cappa.dashboard')
 			->with('flash_notice', "You have given a heart to {$receivingPlayer->username}");
 	}
 
