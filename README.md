@@ -22,6 +22,9 @@ Cappa
       - (other useful prospectus information)
   - List of all transactions, maybe feed of them happening
     - When a heart is spent, who received money, how much went to the pool, who received money from the pool and how much
+- Webservice API
+  - Public API for public/global stats, reporting
+  - Private API for other user clients, phones, apps
 
 ###Model Schema
 
