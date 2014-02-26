@@ -6,8 +6,9 @@ GIT_DIR_SAVE=$GIT_DIR ; unset GIT_DIR
 GIT_WORK_TREE_SAVE=$GIT_WORK_TREE ; unset GIT_WORK_TREE
  
 if [ ! -f "${OPENSHIFT_DATA_DIR}composer/bin/composer.phar" ]; then
+  mkdir -p ${OPENSHIFT_DATA_DIR}composer/bin
   echo "Installing composer..."
-  curl -s https://getcomposer.org/installer | php -- --install-dir=${OPENSHIFT_DATA_DIR}composer/bin/ >/dev/null
+  curl -s https://getcomposer.org/installer | php -- --install-dir=${OPENSHIFT_DATA_DIR}composer/bin/
   echo "Installing composer...Done"
 else
   echo "Updating composer..."
