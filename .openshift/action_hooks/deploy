@@ -1,11 +1,41 @@
 #!/bin/bash
 
-export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
+export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/composer/.composer"
 
-if [ ! -f "$OPENSHIFT_DATA_DIR/composer.phar" ]; then
-	curl -sS https://getcomposer.org/installer | php -- --install-dir=$OPENSHIFT_DATA_DIR
+GIT_DIR_SAVE=$GIT_DIR ; unset GIT_DIR
+GIT_WORK_TREE_SAVE=$GIT_WORK_TREE ; unset GIT_WORK_TREE
+ 
+if [ ! -f "${OPENSHIFT_DATA_DIR}composer/bin/composer.phar" ]; then
+  echo "Installing composer..."
+  curl -s https://getcomposer.org/installer | php -- --install-dir=${OPENSHIFT_DATA_DIR}composer/bin/ >/dev/null
+  echo "Installing composer...Done"
+else
+  echo "Updating composer..."
+  php ${OPENSHIFT_DATA_DIR}composer/bin/composer.php self-update
+  echo "Updating composer...Done"
 fi
-
-unset GIT_DIR
+ 
 cd $OPENSHIFT_REPO_DIR
-/usr/local/zend/bin/php $OPENSHIFT_DATA_DIR/composer.phar install --prefer-source --no-interaction --no-dev
+
+echo "Ensuring softlink to vendor directory"
+if [ ! -d "$OPENSHIFT_DEPENDENCIES_DIR/composer/vendor" ]; then
+	mkdir -p $OPENSHIFT_DEPENDENCIES_DIR/composer/vendor
+fi
+ln -s $OPENSHIFT_DEPENDENCIES_DIR/composer/vendor vendor
+
+
+echo "Ensuring softlink to storage directory"
+if [ ! -d "$OPENSHIFT_DATA_DIR/laravel/storage" ]; then
+	mkdir -p $OPENSHIFT_DATA_DIR/laravel
+	cp -r $OPENSHIFT_REPO_DIR/app/storage $OPENSHIFT_DATA_DIR/laravel/.
+fi
+rm -fr $OPENSHIFT_REPO_DIR/app/storage
+ln -s $OPENSHIFT_DATA_DIR/laravel/storage app/storage
+
+echo "Running composer install"
+#/usr/local/zend/bin/php $OPENSHIFT_DATA_DIR/composer/bin/composer.phar install --prefer-source --no-interaction --no-dev
+ 
+export GIT_DIR=$GIT_DIR_SAVE ; unset GIT_DIR_SAVE
+export GIT_WORK_TREE=$GIT_WORK_TREE_SAVE ; unset GIT_WORK_TREE
+
+
