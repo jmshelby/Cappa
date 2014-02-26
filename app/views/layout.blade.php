@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Laravel Authentication Demo</title>
-    <?php // {{ HTML::style('/css/style.css') }} ?>
+    <?php /* {{ HTML::style('/css/style.css') }} */ ?>
 </head>
 <body>
     <div id="container">
