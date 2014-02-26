@@ -13,6 +13,7 @@ use Carbon\Carbon;
 */
 
 Route::get('/', array('as' => 'home', function () {
+\Log::info("Logging some new stuff");
 	return View::make('home');
  }));
 
