@@ -33,7 +33,7 @@ rm -fr $OPENSHIFT_REPO_DIR/app/storage
 ln -s $OPENSHIFT_DATA_DIR/laravel/storage app/storage
 
 echo "Running composer install"
-#/usr/local/zend/bin/php $OPENSHIFT_DATA_DIR/composer/bin/composer.phar install --prefer-source --no-interaction --no-dev
+/usr/local/zend/bin/php $OPENSHIFT_DATA_DIR/composer/bin/composer.phar install --prefer-source --no-interaction --no-dev
  
 export GIT_DIR=$GIT_DIR_SAVE ; unset GIT_DIR_SAVE
 export GIT_WORK_TREE=$GIT_WORK_TREE_SAVE ; unset GIT_WORK_TREE
