@@ -14,4 +14,14 @@ class PoolActivity extends \Cappa\GenePool\Models\Mongo\Root {
         return $this->belongsTo('Cappa\Entities\Player');
     }
 
+    public static function newFromChange($player, $amountBefore, $amountAfter)
+    {
+        $activity = new static;
+        $activity->before = $amountBefore;
+        $activity->after = $amountAfter;
+        $activity->player()->associate($player);
+        $activity->save();
+        return $activity;
+    }
+
 }

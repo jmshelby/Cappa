@@ -8,13 +8,22 @@
 
 
 <p>Current Hearts: {{ $player->current_hearts}}</p>
-<p>Current Dollars: {{ $player->current_dollars}}</p>
+<p>Current Dollars: {{ $player->current_money}}</p>
 
 
 <br/>
 <br/>
 
 {{ HTML::linkRoute('cappa.addHeart', 'Add Heart') }}
+
+<br/>
+<br/>
+
+{{ Form::open(array('route'=>'cappa.changePoolShare', 'method'=>'POST')) }}
+	{{ Form::label('pool_share', 'Pool Share %') }}<br/>
+	{{ Form::text('pool_share', Input::old('pool_share', $player->getPoolShare())) }}
+	{{ Form::submit('Update Pool Share %') }}
+{{ Form::close() }}
 
 <br/>
 <br/>
@@ -33,7 +42,7 @@
 				<tr>
 					<td>{{{ $otherPlayer->username }}}</td>
 					<td>{{{ $otherPlayer->current_hearts }}}</td>
-					<td>{{{ $otherPlayer->current_dollars }}}</td>
+					<td>{{{ $otherPlayer->current_money }}}</td>
 					<td>{{{ $otherPlayer->share_percentage }}}</td>
 					<td>{{ HTML::linkRoute('cappa.giveHeart', 'Give Heart', array('player'=>$otherPlayer->id) ) }}</td>
 				</tr>
