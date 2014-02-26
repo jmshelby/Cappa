@@ -11,9 +11,9 @@ if [ ! -f "${OPENSHIFT_DATA_DIR}composer/bin/composer.phar" ]; then
   curl -s https://getcomposer.org/installer | php -- --install-dir=${OPENSHIFT_DATA_DIR}composer/bin/
   echo "Installing composer...Done"
 else
-  echo "Updating composer..."
-  php ${OPENSHIFT_DATA_DIR}composer/bin/composer.php self-update
-  echo "Updating composer...Done"
+  echo "Updating composer (if needed)..."
+  php ${OPENSHIFT_DATA_DIR}composer/bin/composer.phar self-update
+  echo "Updating composer (if needed)...Done"
 fi
  
 cd $OPENSHIFT_REPO_DIR
