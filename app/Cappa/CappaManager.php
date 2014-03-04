@@ -236,19 +236,14 @@ class CappaManager {
 	// Process Dividend Queue Payouts
 	public function processDividendQueue()
 	{
-\Log::info("Inside...");
 		// Get all transactions that have not been marked as finished
-		//$unfinishedTransactions = PlayerTransaction::where('dividends_paid_out_fl',false)->take(1)->get();
 		$unfinishedTransactions = PlayerTransaction::where('dividends_paid_out_fl',false)->get();
-\Log::info("unfinishedTrans: ".print_r($unfinishedTransactions->toArray(),true));
 
 		// Loop Through
 		foreach($unfinishedTransactions as $trans) {
 
-\Log::info("Checking trans: {$trans->id}");
 			// If no money was directed to the pool, mark as paid out
 			if ($trans->money_sent_to_pool <= 0) {
-\Log::info("  -> transaction didnt have money directed to the pool, marking, moving on...");
 				$trans->dividends_paid_out_fl = true;
 				$trans->save();
 				continue;
@@ -256,7 +251,6 @@ class CappaManager {
 
 			// If count of all dividends is equal to finishing amount, mark as paid out
 			if ($trans->dividends_count == $trans->dividends()->count()) {
-\Log::info("  -> transaction has already reached expected dividends, marking, moving on...");
 				$trans->dividends_paid_out_fl = true;
 				$trans->save();
 				continue;
@@ -267,12 +261,10 @@ class CappaManager {
 			$paidOutPlayers = Player::whereNotIn('id', $paidOutPlayerIds)
 				->where('created_at', '<', $trans->created_at)
 				->get();
-\Log::info("  -> looping through: ". count($paidOutPlayers) ." unpaid players");
 			foreach($paidOutPlayers as $player) {
 				// figure out dividend amount
 				$dividendAmount = $this->_calculateDividendToPlayer($trans, $player);
 				$scaledPercent = $this->_calculateScaledPercentageToPlayer($trans, $player);
-\Log::info("   --> paying out: {$player->username} with {$dividendAmount} ($scaledPercent) ...");
 				// call create transaction dividend
 				$div = PlayerTransactionDividend::createFromPayoutToPlayer(
 					$dividendAmount,
@@ -287,7 +279,6 @@ class CappaManager {
 			// Mark as paid out
 			$trans->dividends_paid_out_fl = true;
 			$trans->save();
-\Log::info("  -> saved.");
 
 		}
 		
