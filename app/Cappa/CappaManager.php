@@ -134,6 +134,9 @@ class CappaManager {
 		if (!$this->doesPlayerHaveHearts($player))
 			throw new \Exception('No hearts left to give');
 
+		// Make sure giving player has been paid out for all pending pool transactions
+		$this->playerReceivesPendingDividends($player);
+
 		// Calculate the amount of new/generated money
 		$newMoney = $this->_calculateNewMoneyFromGiver($player);
 
@@ -214,11 +217,36 @@ class CappaManager {
 	// To be called when a player needs to know their final amount (not cron)
 	public function playerReceivesPendingDividends($player)
 	{
-		// Get all transactions that have not been fully paid out, since player was apart of the share
-		// Get unique list of all above transaction ids from transaction dividends that player hasn't been paid out
-		// Get transaction objects
+		$player = $this->player($player);
+
+		// Check if player has ever been a part of the pool, if not, return
+		if (!$player->getPoolShareStartDate())
+			return;
+
+		// Get all transactions that have not been fully paid out, since player was a part of the share
+		$unfinishedTransactionIds = PlayerTransaction::where('dividends_paid_out_fl',false)
+			->where('created_at', '>=', $player->getPoolShareStartDate())
+			->lists('_id');
+
+		// Get unique list of all above transaction ids from transaction dividends that player has been paid
+		$myFinishedTransactionIds = $player->dividends()
+			->whereIn('transaction_id', $unfinishedTransactionIds)
+			->distinct('transaction_id')
+			->get();
+		$temps = $myFinishedTransactionIds;
+		$myFinishedTransactionIds = array();
+		foreach($temps as $temp) {
+			$myFinishedTransactionIds[] = $temp[0];
+		}
+
+		// Get all transactions that have not been fully paid out, since player was a part of the share, and ones that the player hasn't been paid out for
+		$myUnfinishedTransactions = PlayerTransaction::where('dividends_paid_out_fl',false)
+			->where('created_at', '>=', $player->getPoolShareStartDate())
+			->whereNotIn('transaction_id', $myFinishedTransactionIds)
+			->get();
+
 		// Loop through transactions
-		foreach($unpaidTransactions as $trans) {
+		foreach($myUnfinishedTransactions as $trans) {
 			// figure out dividend amount
 			$dividendAmount = $this->_calculateDividendToPlayer($trans, $player);
 			$scaledPercent = $this->_calculateScaledPercentageToPlayer($trans, $player);
@@ -229,6 +257,8 @@ class CappaManager {
 				$player,
 				$scaledPercent
 			);
+			// increment players money
+			$player->increment('current_money', $dividendAmount);
 		}
 	}
 
