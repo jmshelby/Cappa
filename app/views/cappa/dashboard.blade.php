@@ -8,7 +8,7 @@
 
 
 <p>Current Hearts: {{ $player->current_hearts}}</p>
-<p>Current Dollars: {{ $player->current_money}}</p>
+<p>Current Dollars: {{ number_format($player->current_money,2) }}</p>
 
 
 <br/>
@@ -27,7 +27,6 @@
 
 <br/>
 <br/>
-<?php setlocale(LC_MONETARY, 'en_US'); ?>
 @if(count($otherPlayers))
 	<h3>Other Players In the world</h3>
 	<table border=1>
@@ -42,7 +41,7 @@
 				<tr>
 					<td>{{{ $otherPlayer->username }}}</td>
 					<td>{{{ $otherPlayer->current_hearts }}}</td>
-					<td>{{{ money_format('%i', $otherPlayer->current_money) }}}</td>
+					<td>{{{ number_format($otherPlayer->current_money, 2) }}}</td>
 					<td>{{{ $otherPlayer->pool_factor }}}</td>
 					<td>{{ HTML::linkRoute('cappa.giveHeart', 'Give Heart', array('player'=>$otherPlayer->id) ) }}</td>
 				</tr>
