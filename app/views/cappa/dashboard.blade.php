@@ -43,7 +43,7 @@
 					<td>{{{ $otherPlayer->username }}}</td>
 					<td>{{{ $otherPlayer->current_hearts }}}</td>
 					<td>{{{ $otherPlayer->current_money }}}</td>
-					<td>{{{ $otherPlayer->share_percentage }}}</td>
+					<td>{{{ $otherPlayer->share_factor }}}</td>
 					<td>{{ HTML::linkRoute('cappa.giveHeart', 'Give Heart', array('player'=>$otherPlayer->id) ) }}</td>
 				</tr>
 			@endforeach
