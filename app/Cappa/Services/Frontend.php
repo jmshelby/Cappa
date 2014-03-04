@@ -46,7 +46,7 @@ class Frontend {
 	{
 		$currentPlayer = $this->getPlayer();
 		$players_q = Player::where('_id', '!=', $currentPlayer->id);
-		return $players_q->get();
+		return $players_q;
 	}
 
 // =================================================================

@@ -39,6 +39,9 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 	public function getIndex()
 	{
 		$otherPlayers = $this->service->getAllOtherPlayers();
+		$otherPlayers->orderBy('current_money', 'desc');
+
+		$otherPlayers = $otherPlayers->get();
 
 		return View::make('cappa.dashboard', array(
 			'player'=>$this->_getPlayer(),
