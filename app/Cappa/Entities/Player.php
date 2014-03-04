@@ -95,6 +95,15 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
 		return $this->share_factor; 
 	}
 
+	public function getPoolShareStartDate()
+	{
+		return $this->poolActivity()
+			->where('after', '>', 0)
+			->orderBy('created_at')
+			->pluck('created_at')
+		;
+	}
+
 	public function isPoolShareValueValid($percentage)
 	{
 		// TODO -- Any other checks??
