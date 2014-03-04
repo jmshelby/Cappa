@@ -9,7 +9,7 @@ class CappaManager {
 
 
 	const AQUIRE_FACTOR_BASE		= 1;
-	const AQUIRE_FACTOR_PERCENTAGE	= .05;
+	const AQUIRE_FACTOR_PERCENTAGE	= .0005;
 
 /*
 	public function __construct(Dispatch $dispatch)
