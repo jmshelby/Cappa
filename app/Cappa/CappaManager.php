@@ -180,8 +180,8 @@ class CappaManager {
 	protected function _calculateNewDonationToPool($receivingPlayer, $money)
 	{
 		$shareFactor = 0;
-		if (is_numeric($receivingPlayer->share_factor))
-			$shareFactor = $receivingPlayer->share_factor;
+		if (is_numeric($receivingPlayer->getPoolShare()))
+			$shareFactor = $receivingPlayer->getPoolShare();
 		$donationMoney = $shareFactor * $money;
 		return $donationMoney;
 	}
@@ -191,7 +191,12 @@ class CappaManager {
 		$poolDivisor = $transaction->pool_divisor;
 		if ($poolDivisor == 0)
 			return 0;
-		$percentage = $player->share_factor / $poolDivisor;
+
+		// Get player pool share, from the time the transaction happend
+		$poolShare = $player->getPoolShare($transaction->created_at);
+
+		// Calculate
+		$percentage =  $poolShare / $poolDivisor;
 		return $percentage;
 	}
 

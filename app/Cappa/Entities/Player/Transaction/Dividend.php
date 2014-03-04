@@ -38,7 +38,7 @@ class Dividend extends \Cappa\GenePool\Models\Mongo\Root
 		$div = new static;
 
 		$div->money_received = $money;
-		$div->receiving_player_pool_rate = $player->share_factor;
+		$div->receiving_player_pool_rate = $player->getPoolShare($transaction->created_at);
 		$div->scaled_dividend_rate = $scaledPercentage;
 
 		$div->transaction()->associate($transaction);
