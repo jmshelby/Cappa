@@ -28,6 +28,12 @@ class UserCollectionSeeder extends Seeder {
 			'username' => 'rkelly',
 			'password' => 'new55555',
 		),
+		array(
+			'firstname' => 'Josh',
+			'lastname' => 'Coats',
+			'username' => 'jcoats',
+			'password' => 'joshua$',
+		),
 	);
 
 
