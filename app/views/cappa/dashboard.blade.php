@@ -27,7 +27,7 @@
 
 <br/>
 <br/>
-
+<?php setlocale(LC_MONETARY, 'en_US'); ?>
 @if(count($otherPlayers))
 	<h3>Other Players In the world</h3>
 	<table border=1>
@@ -42,8 +42,8 @@
 				<tr>
 					<td>{{{ $otherPlayer->username }}}</td>
 					<td>{{{ $otherPlayer->current_hearts }}}</td>
-					<td>{{{ $otherPlayer->current_money }}}</td>
-					<td>{{{ $otherPlayer->share_percentage }}}</td>
+					<td>{{{ money_format('%i', $otherPlayer->current_money) }}}</td>
+					<td>{{{ $otherPlayer->pool_factor }}}</td>
 					<td>{{ HTML::linkRoute('cappa.giveHeart', 'Give Heart', array('player'=>$otherPlayer->id) ) }}</td>
 				</tr>
 			@endforeach
