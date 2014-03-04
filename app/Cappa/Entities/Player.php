@@ -44,6 +44,24 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         return $this->hasMany('Cappa\Entities\Player\Transaction','receiving_player_id');
 	}
 
+	// Many Dividends Received
+	public function dividends()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend','receiving_player_id');
+	}
+
+	// Many Dividends Given As Pool Donor
+	public function dividendsFromDonation()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend', 'donor_player_id');
+	}
+
+	// Many Dividends Given As Result of me spending a heart on the donor
+	public function dividendsFromHeartDonation()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend', 'heart_donor_player_id');
+	}
+
 	// == Factories ==============================================================
 
 	public static function getFromUser($userId)
