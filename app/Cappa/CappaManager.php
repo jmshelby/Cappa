@@ -292,7 +292,7 @@ class CappaManager {
 
 			// Fetch all players, created before transaction, not yet paid out
 			$paidOutPlayerIds = $trans->dividends()->lists('receiving_player_id');
-			$paidOutPlayers = Player::whereNotIn('id', $paidOutPlayerIds)
+			$paidOutPlayers = Player::whereNotIn('_id', $paidOutPlayerIds)
 				->where('created_at', '<', $trans->created_at)
 				->get();
 			foreach($paidOutPlayers as $player) {
