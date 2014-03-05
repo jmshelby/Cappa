@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('content')
-  <h1>Capitalism - A Love Game, it's all about hearts, or is it....</h1>
+  <h1>Capitalism</h1>
+<h5>A Love Game, it's all about hearts, or is it....</h5>
 
 <br/>
 <br/>
