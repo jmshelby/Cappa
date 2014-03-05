@@ -219,6 +219,8 @@ class CappaManager {
 	{
 		$player = $this->player($player);
 
+		$playerPaidOut = false;
+
 		// Check if player has ever been a part of the pool, if not, return
 		if (!$player->getPoolShareStartDate())
 			return;
@@ -259,7 +261,9 @@ class CappaManager {
 			);
 			// increment players money
 			$player->increment('current_money', $dividendAmount);
+			$playerPaidOut = true;
 		}
+		return $playerPaidOut;
 	}
 
 
