@@ -107,4 +107,22 @@ class Frontend {
 		return $this->_cappaMan->playerGivesHeartTo($player, $receivingPlayer);
 	}
 
+// =================================================================
+// === Dividends
+
+// ??? Should this be here ??? or should the cappa manager call this at the right times ???
+	public function playerReceivesPendingDividends()
+	{
+		$player = $this->getPlayer();
+
+		$result = $this->_cappaMan->playerReceivesPendingDividends($player);
+
+		if ($result) {
+			// Reset the cached player data that we have, because the data has changed
+			$this->_player = null;
+		}
+
+		return $result;
+	}
+
 }

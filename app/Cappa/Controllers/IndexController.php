@@ -38,6 +38,9 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 
 	public function getIndex()
 	{
+		// Player is requesting money info, make sure total pending pool is calculated
+		$otherPlayers = $this->service->playerReceivesPendingDividends();
+
 		$otherPlayers = $this->service->getAllOtherPlayers();
 
 		return View::make('cappa.dashboard', array(
@@ -112,5 +115,11 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 			->with('flash_notice', "You have given a heart to {$receivingPlayer->username}");
 	}
 
+
+	public function getProcessQueue()
+	{
+		CappaMan::processDividendQueue();
+return "Ran cappa process...";
+	}
 
 }
