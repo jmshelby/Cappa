@@ -13,12 +13,12 @@
  *
  *  - receiving_player_money_amount
  *
+ *  - money sent to pool
+ *  - receiving player pool rate
+ *
  *
  * Other Possible Fields
- *     - receiving players total money resulting
- *     - money sent to pool
  *     - giving player pool rate
- *     - receiving player pool rate
  *
  */
 class Transaction extends \Cappa\GenePool\Models\Mongo\Root {
@@ -32,6 +32,13 @@ class Transaction extends \Cappa\GenePool\Models\Mongo\Root {
 		'player_money_amount',
 		'player_heart_amount',
 		'receiving_player_money_amount',
+
+		'money_sent_to_pool',
+		'receiving_player_pool_rate',
+		'pool_divisor',
+
+		'dividends_count',
+		'dividends_paid_out_fl',
 	);
 
     public function player()
@@ -44,7 +51,12 @@ class Transaction extends \Cappa\GenePool\Models\Mongo\Root {
         return $this->belongsTo('Cappa\Entities\Player','receiving_player_id');
     }
 
-    public static function newFromGiving($player, $receivingPlayer, $heartsGiven, $moneyGenerated, $moneyReceived)
+    public function dividends()
+    {
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend');
+    }
+
+    public static function newFromGiving($player, $receivingPlayer, $heartsGiven, $moneyGenerated, $moneyReceived, $poolDivisor, $dividendsCount)
     {
 
         $trans = new static;
@@ -61,6 +73,12 @@ class Transaction extends \Cappa\GenePool\Models\Mongo\Root {
 
 		$trans->player()->associate($player);
 		$trans->receivingPlayer()->associate($receivingPlayer);
+
+		$trans->money_sent_to_pool = $moneyGenerated - $moneyReceived;
+		$trans->receiving_player_pool_rate = $receivingPlayer->share_factor;
+		$trans->pool_divisor = $poolDivisor; // Sum of all player's share factors
+		$trans->dividends_count = $dividendsCount;
+		$trans->dividends_paid_out_fl = false;
 
         $trans->save();
         return $trans;

@@ -44,6 +44,24 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
         return $this->hasMany('Cappa\Entities\Player\Transaction','receiving_player_id');
 	}
 
+	// Many Dividends Received
+	public function dividends()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend','receiving_player_id');
+	}
+
+	// Many Dividends Given As Pool Donor
+	public function dividendsFromDonation()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend', 'donor_player_id');
+	}
+
+	// Many Dividends Given As Result of me spending a heart on the donor
+	public function dividendsFromHeartDonation()
+	{
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend', 'heart_donor_player_id');
+	}
+
 	// == Factories ==============================================================
 
 	public static function getFromUser($userId)
@@ -74,10 +92,34 @@ class Player extends \Cappa\GenePool\Models\Mongo\Root {
 		return ( !is_null($this->share_factor) && $this->share_factor > 0 );
 	}
 
-	public function getPoolShare()
+	public function getPoolShare($date = null)
 	{
+
+		// If Date is specified, check pool history
+		if ( !is_null($date) && ($datetime = $this->asDateTime($date)) ) {
+			// Find out what the pool share was at a specific datetime
+			$query = $this->poolActivity();
+			$query->where('created_at', '<=', $datetime);
+			$query->orderBy('created_at', 'desc');
+			$value = $query->pluck('after');
+			if (!is_numeric($value)) return 0.0;
+			return $value;
+		}
+
+		// Make sure the person is currently in the pool
 		if (!$this->isInPool()) return 0.0;
+
+		// Return the current pool share
 		return $this->share_factor; 
+	}
+
+	public function getPoolShareStartDate()
+	{
+		return $this->poolActivity()
+			->where('after', '>', 0)
+			->orderBy('created_at')
+			->pluck('created_at')
+		;
 	}
 
 	public function isPoolShareValueValid($percentage)
