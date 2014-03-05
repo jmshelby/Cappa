@@ -12,8 +12,15 @@ class PlayerCollectionSeeder extends Seeder {
 	{
 		DB::collection('players')->delete();
 		$users = User::all();
-		foreach($users as $user)
-			Cappa\Entities\Player::createFromUser($user);
+		foreach($users as $user) {
+			$player = Cappa\Entities\Player::createFromUser($user);
+
+			$share = mt_rand(0, 100) / 100;
+			CappaMan::playerChangesPoolShare($player, $share);
+
+		}
+
+
 	}
 
 }
