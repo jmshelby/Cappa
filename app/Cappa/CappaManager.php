@@ -226,7 +226,7 @@ class CappaManager {
 		// Get all transactions that have not been fully paid out, since player was a part of the share
 		$unfinishedTransactionIds = PlayerTransaction::where('dividends_paid_out_fl',false)
 			->where('created_at', '>=', $player->getPoolShareStartDate())
-			->lists('_id');
+			->lists('_id'); // TODO -- fix this bug in the mongodb package (pull request)
 
 		// Get unique list of all above transaction ids from transaction dividends that player has been paid
 		$myFinishedTransactionIds = $player->dividends()
@@ -242,7 +242,7 @@ class CappaManager {
 		// Get all transactions that have not been fully paid out, since player was a part of the share, and ones that the player hasn't been paid out for
 		$myUnfinishedTransactions = PlayerTransaction::where('dividends_paid_out_fl',false)
 			->where('created_at', '>=', $player->getPoolShareStartDate())
-			->whereNotIn('transaction_id', $myFinishedTransactionIds)
+			->whereNotIn('_id', $myFinishedTransactionIds) // TODO -- fix this bug in the mongodb package (pull request)
 			->get();
 
 		// Loop through transactions
