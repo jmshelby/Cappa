@@ -53,7 +53,7 @@ class Transaction extends \Cappa\GenePool\Models\Mongo\Root {
 
     public function dividends()
     {
-        return $this->belongsTo('Cappa\Entities\Player\Transaction\Dividend','receiving_player_id');
+        return $this->hasMany('Cappa\Entities\Player\Transaction\Dividend');
     }
 
     public static function newFromGiving($player, $receivingPlayer, $heartsGiven, $moneyGenerated, $moneyReceived, $poolDivisor, $dividendsCount)
