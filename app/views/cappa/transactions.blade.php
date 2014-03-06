@@ -18,7 +18,7 @@
 			<th>Player Money Amount</th>
 			<th>Player Heart Amount</th>
 			<th>Receiving Player Money Amount</th>
-			<th>Date</th>
+			<th>When</th>
 		</tr>
 			@foreach($transactions as $trans)
 				<tr>
@@ -30,7 +30,7 @@
 					<td>{{{ $trans->player_money_amount }}}</td>
 					<td>{{{ $trans->player_heart_amount }}}</td>
 					<td>{{{ $trans->receiving_player_money_amount }}}</td>
-					<td>{{{ $trans->created_at }}}</td>
+					<td>{{{ $trans->created_at->diffForHumans() }}}</td>
 				</tr>
 			@endforeach
 	</table>

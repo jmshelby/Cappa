@@ -57,6 +57,7 @@ class IndexController extends \Cappa\GenePool\Controller\Root {
 		$transactions_q = Transaction::with('player','receivingPlayer')
 			->orderBy('created_at', 'desc')
 		;
+		$transactions_q->take(300);
 		$transactions = $transactions_q->get();
 		return View::make('cappa.transactions', array(
 			'transactions'=>$transactions,

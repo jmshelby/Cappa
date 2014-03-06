@@ -15,6 +15,7 @@ class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
     		'getAddHeart'			=> 'cappa.addHeart',
     		'postChangePoolShare'	=> 'cappa.changePoolShare',
     		'getGiveHeart'			=> 'cappa.giveHeart',
+    		'getTransactionHistory'	=> 'cappa.transactionHistory',
 		));
 
 		Route::controller('cappa-cron','\Cappa\Controllers\CronController');
