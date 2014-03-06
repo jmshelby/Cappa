@@ -17,6 +17,8 @@ class CappaServiceProvider extends \Illuminate\Support\ServiceProvider {
     		'getGiveHeart'			=> 'cappa.giveHeart',
 		));
 
+		Route::controller('cappa-cron','\Cappa\Controllers\CronController');
+
 /*
 		Route::controller('cappa\player','\Cappa\Controllers\PlayerController',array(
     		//'getIndex' => 'user.login',
