@@ -4,6 +4,9 @@
 <head>
     <title>Laravel Authentication Demo</title>
     <?php /* {{ HTML::style('/css/style.css') }} */ ?>
+    <style>
+        * { font-family: "Comic Sans MS", cursive, sans-serif; }
+    </style>
 </head>
 <body>
     <div id="container">
