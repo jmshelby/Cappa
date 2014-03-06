@@ -85,11 +85,11 @@ return array(
 
 		'mongodb' => array(
     		'driver'   => 'mongodb',
-    		'host'     => getenv('OPENSHIFT_MONGODB_DB_HOST'),
-    		'port'     => getenv('OPENSHIFT_MONGODB_DB_PORT'),
-    		'database' => 'cappa',
-    		'username' => 'admin',
-    		'password' => 'lNS4ApIzUVMz',
+    		'host'     => 'localhost',
+    		'port'     => 27017,
+    		'database' => 'cappa_1'
+    		//'username' => 'username',
+    		//'password' => 'password',
 		),
 
 	),
