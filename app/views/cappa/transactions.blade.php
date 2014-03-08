@@ -18,6 +18,7 @@
 			<th>Player Money Amount</th>
 			<th>Player Heart Amount</th>
 			<th>Receiving Player Money Amount</th>
+			<th>Pool Paid Out?</th>
 			<th>When</th>
 		</tr>
 			@foreach($transactions as $trans)
@@ -30,6 +31,7 @@
 					<td>{{{ $trans->player_money_amount }}}</td>
 					<td>{{{ $trans->player_heart_amount }}}</td>
 					<td>{{{ $trans->receiving_player_money_amount }}}</td>
+					<td>{{ ($trans->dividends_paid_out_fl) ? 'Yep' : 'Nope' }}</td>
 					<td>{{{ $trans->created_at->diffForHumans() }}}</td>
 				</tr>
 			@endforeach

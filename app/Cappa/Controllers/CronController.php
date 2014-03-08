@@ -14,8 +14,12 @@ class CronController extends \Cappa\GenePool\Controller\Root {
 
 	public function getProcessQueue()
 	{
-		CappaMan::processDividendQueue();
-		return "Ran cappa process...";
+$start = microtime(true);
+        CappaMan::processDividendQueue();
+$end = microtime(true);
+$total = $end - $start;
+\Log::info("Ran cappa process in $total seconds.");
+return "Ran cappa process in $total seconds.";
 	}
 
 }
